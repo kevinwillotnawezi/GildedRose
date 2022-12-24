@@ -199,7 +199,7 @@ class GildedRoseTest {
     void conjuredQualityDecreaseFasterWhenSellInIsPassed(){
         // Given
         String name = "Conjured";
-        int sellIn = 0;
+        int sellIn = -5;
         int quality = 20;
         Item[] items = new Item[] { new Item(name, sellIn, quality) };
         GildedRose app = new GildedRose(items);
