@@ -13,3 +13,9 @@ For e.g. 10 days:
 ```
 gradle -q text --args 10
 ```
+
+### Run the tests
+
+```
+gradle test
+```
