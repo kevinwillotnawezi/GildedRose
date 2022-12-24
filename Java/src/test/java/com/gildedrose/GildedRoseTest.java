@@ -81,7 +81,7 @@ class GildedRoseTest {
         // Given
         String name = "Sulfuras, Hand of Ragnaros";
         int sellIn = 0;
-        int quality = 50;
+        int quality = 80;
         Item[] items = new Item[] { new Item(name, sellIn, quality) };
         GildedRose app = new GildedRose(items);
 
@@ -176,5 +176,39 @@ class GildedRoseTest {
         // Then
         assertEquals(sellIn-1, app.items[0].sellIn);
         assertEquals(0, app.items[0].quality);
+    }
+
+    @Test
+    void conjuredQualityDecreaseFaster(){
+        // Given
+        String name = "Conjured";
+        int sellIn = 10;
+        int quality = 20;
+        Item[] items = new Item[] { new Item(name, sellIn, quality) };
+        GildedRose app = new GildedRose(items);
+
+        // When
+        app.updateQuality();
+
+        // Then
+        assertEquals(sellIn-1, app.items[0].sellIn);
+        assertEquals( quality-2, app.items[0].quality);
+    }
+
+    @Test
+    void conjuredQualityDecreaseFasterWhenSellInIsPassed(){
+        // Given
+        String name = "Conjured";
+        int sellIn = 0;
+        int quality = 20;
+        Item[] items = new Item[] { new Item(name, sellIn, quality) };
+        GildedRose app = new GildedRose(items);
+
+        // When
+        app.updateQuality();
+
+        // Then
+        assertEquals(sellIn-1, app.items[0].sellIn);
+        assertEquals( quality-4, app.items[0].quality);
     }
 }
