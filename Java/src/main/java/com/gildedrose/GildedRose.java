@@ -9,59 +9,66 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            switch (item.name) {
-                case "Aged Brie":
-                    if (item.quality < 50) {
-                        item.quality++;
-                    }
-                    break;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    if (item.quality < 50) {
-                        item.quality++;
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality++;
-                            }
+            SpecialItem.get(item.name).ifPresentOrElse(it -> {
+                switch (it) {
+                    case AGED_BRIE:
+                        if (item.quality < 50) {
+                            item.quality++;
                         }
+                        break;
+                    case BACKSTAGE:
+                        if (item.quality < 50) {
+                            item.quality++;
+                            if (item.sellIn < 11) {
+                                if (item.quality < 50) {
+                                    item.quality++;
+                                }
+                            }
 
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality++;
+                            if (item.sellIn < 6) {
+                                if (item.quality < 50) {
+                                    item.quality++;
+                                }
                             }
                         }
-                    }
-                    break;
-                case "Sulfuras, Hand of Ragnaros":
-                    item.quality = 80;
-                    break;
-                case "Conjured":
-                    item.quality -= 2;
-                    break;
-                default:
-                    if (item.quality != 0) {
+                        break;
+                    case SULFURAS:
+                        item.quality = 80;
+                        break;
+                    case CONJURED:
+                        item.quality -= 2;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (it != SpecialItem.SULFURAS) {
+                    item.sellIn--;
+
+                    if (item.sellIn < 0
+                        && it != SpecialItem.AGED_BRIE
+                        && item.quality != 0) {
                         item.quality--;
                     }
-                    break;
-            }
+                }
 
-            if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                item.sellIn--;
-
-                if (item.sellIn < 0
-                    && !item.name.equals("Aged Brie")
-                    && item.quality != 0) {
+                if (it != SpecialItem.AGED_BRIE && item.sellIn < 0) {
                     item.quality--;
                 }
-            }
 
-            if (item.name.equals("Conjured") && item.sellIn < 0) {
-                item.quality--;
-            }
+                if (it == SpecialItem.BACKSTAGE && item.sellIn < 0) {
+                    item.quality = 0;
+                }
+            }, () -> {
+                item.sellIn--;
+                if (item.quality != 0) {
+                    item.quality--;
 
-
-            if (item.name.equals("Backstage passes to a TAFKAL80ETC concert") && item.sellIn < 0) {
-                item.quality = 0;
-            }
+                    if (item.sellIn < 0 && item.quality != 1) {
+                        item.quality--;
+                    }
+                }
+            });
         }
     }
 }

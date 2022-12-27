@@ -182,7 +182,7 @@ class GildedRoseTest {
     void conjuredQualityDecreaseFaster(){
         // Given
         String name = "Conjured";
-        int sellIn = 10;
+        int sellIn = 1;
         int quality = 20;
         Item[] items = new Item[] { new Item(name, sellIn, quality) };
         GildedRose app = new GildedRose(items);
