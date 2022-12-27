@@ -3,7 +3,7 @@
 ## Run the Text Fixture from Command-Line
 
 ```
-./gradlew -q text
+gradle -q text
 ```
 
 ### Specify Number of Days
@@ -11,5 +11,11 @@
 For e.g. 10 days:
 
 ```
-./gradlew -q text --args 10
+gradle -q text --args 10
+```
+
+### Run the tests
+
+```
+gradle test
 ```
